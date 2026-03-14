@@ -41,7 +41,6 @@ public class DictionaryOpenAddressing<K, V> implements Dictionary<K, V> {
             Entry<K, V> entry = table[index];
 
             if (entry == null) {
-                // Tom plads – indsæt her (eller genbruge første tombstone)
                 int insertAt = (firstDeleted != -1) ? firstDeleted : index;
                 table[insertAt] = new Entry<>(key, value);
                 size++;
@@ -51,14 +50,12 @@ public class DictionaryOpenAddressing<K, V> implements Dictionary<K, V> {
             if (entry == DELETED) {
                 if (firstDeleted == -1) firstDeleted = index;
             } else if (entry.key.equals(key)) {
-                // Nøglen findes allerede – opdater værdien
                 V old = entry.value;
                 entry.value = value;
                 return old;
             }
         }
-
-        // Tabellen er fuld, men der kan stadig være en tombstone at genbruge
+        
         if (firstDeleted != -1) {
             table[firstDeleted] = new Entry<>(key, value);
             size++;
@@ -80,7 +77,7 @@ public class DictionaryOpenAddressing<K, V> implements Dictionary<K, V> {
         if (index == -1) return null;
 
         V old = table[index].value;
-        table[index] = DELETED; // Sæt tombstone så probe-sekvenser ikke brydes
+        table[index] = DELETED;
         size--;
         return old;
     }
@@ -100,7 +97,6 @@ public class DictionaryOpenAddressing<K, V> implements Dictionary<K, V> {
         return (key.hashCode() & Integer.MAX_VALUE) % capacity;
     }
 
-    // Finder indekset for en nøgle, eller -1 hvis den ikke findes
     private int findIndex(K key) {
         if (key == null) return -1;
         int startIndex = toIndex(key);
