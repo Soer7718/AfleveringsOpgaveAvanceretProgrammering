@@ -1,3 +1,5 @@
+DETTE ER EN OPGAVE LAVET AF SØREN ROSENDAHL 
+
 Jævnfør opgavebeskrivelsen er Dictionary<K, V> implementeret med en hash-tabel der bruger åben adressering og linear probing til kollisionshåndtering. Nøgle-værdi-par gemmes direkte i tabellen via en indre Entry<K, V>-klasse.
 
 Designvalg
